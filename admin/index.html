@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển Quản Trị - Dormex KTX</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div>DORM<span>EX</span></div>
+            </div>
+            <span>BQL</span>
+        </div>
+
+        <nav class="sidebar-menu">
+            <div class="menu-label">Tổng Quan</div>
+            <a href="index.html" class="sidebar-item active"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</a>
+
+            <div class="menu-label" style="margin-top: 1rem;">Nghiệp Vụ KTX</div>
+            <a href="users.html" class="sidebar-item"><i class="fa-solid fa-users"></i> Quản Lý Sinh Viên</a>
+            <a href="registrations.html" class="sidebar-item"><i class="fa-solid fa-file-signature"></i> Đơn Đăng Ký Phòng</a>
+            <a href="rooms.html" class="sidebar-item"><i class="fa-solid fa-bed"></i> Quản Lý Quỹ Phòng</a>
+            <a href="billing.html" class="sidebar-item"><i class="fa-solid fa-file-invoice-dollar"></i> Quản Lý Hóa Đơn</a>
+            <a href="maintenance.html" class="sidebar-item"><i class="fa-solid fa-screwdriver-wrench"></i> Bảo Trì - Sửa Chữa</a>
+
+            <div class="menu-label" style="margin-top: 1rem;">Truyền Thông & Quy Chế</div>
+            <a href="announcements.html" class="sidebar-item"><i class="fa-solid fa-bullhorn"></i> Thông Báo KTX</a>
+            <a href="events.html" class="sidebar-item"><i class="fa-solid fa-calendar-days"></i> Quản Lý Sự Kiện</a>
+            <a href="rules.html" class="sidebar-item"><i class="fa-solid fa-gavel"></i> Nội Quy KTX</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="user-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="user-meta">
+                    <div class="name user-display-name">Ban Quản Lý</div>
+                    <div class="role">Admin Hệ Thống</div>
+                </div>
+                <button onclick="DormexDB.logout()" class="btn-action" title="Đăng xuất" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1>Tổng Quan Ban Quản Trị KTX</h1>
+            </div>
+            <div class="topbar-actions">
+                <a href="../index.html" target="_blank" class="btn btn-sm btn-outline"><i class="fa-solid fa-external-link"></i> Xem Trang Chủ</a>
+                <button onclick="DormexDB.logout()" class="btn btn-sm btn-danger"><i class="fa-solid fa-power-off"></i> Đăng Xuất</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <!-- STATS CARDS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-value" id="statTotalRooms">0</div>
+                        <div class="stat-label">Tổng số phòng KTX</div>
+                    </div>
+                    <div class="stat-icon blue"><i class="fa-solid fa-door-open"></i></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-value" id="statTotalStudents">0</div>
+                        <div class="stat-label">Sinh viên lưu trú</div>
+                    </div>
+                    <div class="stat-icon green"><i class="fa-solid fa-graduation-cap"></i></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-value" id="statTotalRevenue">0 ₫</div>
+                        <div class="stat-label">Doanh thu đã thu</div>
+                    </div>
+                    <div class="stat-icon purple"><i class="fa-solid fa-money-bill-wave"></i></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <div class="stat-value" id="statPendingTasks">0</div>
+                        <div class="stat-label">Yêu cầu cần xử lý</div>
+                    </div>
+                    <div class="stat-icon amber"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                </div>
+            </div>
+
+            <!-- TWO COLUMNS: PENDING REGISTRATIONS & PENDING MAINTENANCE -->
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                
+                <!-- ĐƠN ĐĂNG KÝ CẦN DUYỆT -->
+                <div class="card" style="padding: 1.5rem;">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.15rem; color: #0369a1;"><i class="fa-solid fa-file-circle-check"></i> Đơn Đăng Ký Phòng Cần Duyệt</h3>
+                        <a href="registrations.html" class="btn btn-sm btn-outline">Xem tất cả</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sinh Viên</th>
+                                    <th>Phòng Đăng Ký</th>
+                                    <th>Kỳ Học</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentRegistrationsTable">
+                                <!-- Render dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SỰ CỐ BẢO TRÌ GẦN ĐÂY -->
+                <div class="card" style="padding: 1.5rem;">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.15rem; color: #0369a1;"><i class="fa-solid fa-wrench"></i> Sự Cố Kỹ Thuật Đang Chờ</h3>
+                        <a href="maintenance.html" class="btn btn-sm btn-outline">Xem tất cả</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Phòng</th>
+                                    <th>Nội Dung</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Xử Lý</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentMaintenanceTable">
+                                <!-- Render dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TIỆN ÍCH TRUY CẬP NHANH -->
+            <div class="card" style="padding: 1.5rem;">
+                <h3 style="font-size: 1.15rem; color: #0369a1; margin-bottom: 1rem;"><i class="fa-solid fa-bolt"></i> Thao Tác Quản Lý Nhanh</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="users.html" class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Thêm Sinh Viên</a>
+                    <a href="rooms.html" class="btn btn-outline"><i class="fa-solid fa-square-plus"></i> Thêm Phòng Mới</a>
+                    <a href="billing.html" class="btn btn-outline"><i class="fa-solid fa-receipt"></i> Lập Hóa Đơn Điện Nước</a>
+                    <a href="announcements.html" class="btn btn-outline"><i class="fa-solid fa-bullhorn"></i> Đăng Thông Báo</a>
+                    <a href="events.html" class="btn btn-outline"><i class="fa-solid fa-calendar-plus"></i> Tạo Sự Kiện Mới</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL XỬ LÝ NHANH BẢO TRÌ -->
+    <div id="maintModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="maintInfoTitle">Cập Nhật Tiến Độ Bảo Trì</h3>
+                <button class="modal-close" onclick="closeModal('maintModal')">&times;</button>
+            </div>
+            <form onsubmit="handleUpdateMaint(event)">
+                <input type="hidden" id="maintId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Trạng thái xử lý</label>
+                        <select id="maintStatus" class="form-control">
+                            <option value="Pending">Đang chờ</option>
+                            <option value="Processing">Đang sửa chữa</option>
+                            <option value="Completed">Đã hoàn thành</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ghi chú của thợ / kỹ thuật viên</label>
+                        <textarea id="maintStaffNote" class="form-control" placeholder="Đã thay bóng đèn LED, kiểm tra xong..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('maintModal')">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu Tiến Độ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('admin');
+            initAdminDashboard();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Thông Tin Sinh Viên - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <!-- PORTAL NAVBAR -->
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <strong style="font-size: 0.92rem; color: #0f172a;" class="user-display-name">Sinh Viên</strong>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.78rem;" class="user-display-role">Cổng Sinh Viên</small>
+                        </div>
+                    </div>
+                    <button onclick="DormexDB.logout()" class="btn btn-sm btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">
+                        <i class="fa-solid fa-power-off"></i> Đăng Xuất
+                    </button>
+                </div>
+            </div>
+
+            <!-- MENU ĐIỀU HƯỚNG SINH VIÊN -->
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link active"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="container" style="padding-top: 2rem;">
+        
+        <!-- BANNER CHÀO MỪNG -->
+        <div class="portal-hero">
+            <div>
+                <h2>Xin chào, <span id="studentWelcomeName">Bạn Sinh Viên</span> 👋</h2>
+                <p>Chào mừng bạn đến với Cổng quản lý lưu trú ký túc xá trực tuyến Dormex.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; z-index: 1;">
+                <a href="maintenance.html" class="btn btn-sm btn-outline" style="background: #ffffff;"><i class="fa-solid fa-wrench"></i> Báo Hỏng Thiết Bị</a>
+                <a href="billing.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-qrcode"></i> Thanh Toán Hóa Đơn</a>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 1.75rem;">
+            
+            <!-- CỘT TRÁI: THÔNG TIN PHÒNG Ở CỦA BẠN -->
+            <div>
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.2rem; color: #0369a1;"><i class="fa-solid fa-door-closed"></i> Thông Tin Phòng Ở Hiện Tại</h3>
+                    </div>
+                    <div id="myRoomSummaryBox">
+                        <!-- Render phòng hoặc nút đăng ký phòng -->
+                    </div>
+                </div>
+
+                <!-- HÓA ĐƠN CẦN THANH TOÁN -->
+                <div class="card">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.2rem; color: #0369a1;"><i class="fa-solid fa-receipt"></i> Hóa Đơn & Nghĩa Vụ Tài Chính</h3>
+                        <a href="billing.html" class="btn btn-sm btn-outline">Xem chi tiết</a>
+                    </div>
+                    <div id="myUnpaidBillBox">
+                        <!-- Render hóa đơn -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: BẢNG TIN & THÔNG BÁO MỚI -->
+            <div>
+                <div class="card">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.2rem; color: #0369a1;"><i class="fa-solid fa-bullhorn"></i> Thông Báo Mới Nhất</h3>
+                        <a href="announcements.html" class="btn btn-sm btn-outline">Tất cả</a>
+                    </div>
+                    <div id="homeAnnouncementsList">
+                        <!-- Render announcements -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hotline ban quản lý: (024) 3888 9999 &bull; Hỗ trợ kỹ thuật 24/7</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('student');
+            initStudentHome();
+        });
+    </script>
+</body>
+</html>
+

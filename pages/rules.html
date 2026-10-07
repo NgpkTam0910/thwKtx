@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nội Quy Lưu Trú - Dormex KTX</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="home.html" class="btn btn-sm btn-outline"><i class="fa-solid fa-user"></i> Cổng Sinh Viên</a>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link active"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 900px; padding-top: 2rem;">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <div class="badge-tag">Kỷ cương & văn minh</div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #0369a1; margin-bottom: 0.5rem;">Nội Quy Ký Túc Xá Sinh Viên</h1>
+            <p style="color: var(--text-muted);">Sinh viên lưu trú tại ký túc xá có trách nhiệm chấp hành nghiêm túc các quy định dưới đây.</p>
+        </div>
+
+        <div id="rulesListContainer">
+            <!-- Render dynamically -->
+        </div>
+
+        <!-- ĐƯỜNG DÂY NÓNG KHẨN CẤP -->
+        <div class="card" style="margin-top: 2.5rem; background: #fef2f2; border: 1px solid #fecaca;">
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div style="width: 54px; height: 54px; border-radius: 50%; background: #fee2e2; color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1.6rem;">
+                    <i class="fa-solid fa-phone-volume"></i>
+                </div>
+                <div>
+                    <h3 style="color: #991b1b; font-size: 1.15rem; margin-bottom: 2px;">Đường Dây Nóng An Ninh & Trật Tự</h3>
+                    <p style="color: #7f1d1d; font-size: 0.92rem;">Trong trường hợp khẩn cấp về an ninh, y tế hoặc cháy nổ, vui lòng liên hệ ngay thường trực bảo vệ: <strong>024.3888.7777</strong> hoặc phòng Quản trị KTX.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hội đồng Kỷ luật & Ban Quản Lý Ký Túc Xá</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rules = DormexDB.getRules();
+            const container = document.getElementById('rulesListContainer');
+            container.innerHTML = rules.map(r => `
+                <div class="rule-card">
+                    <div class="rule-header">
+                        <div>
+                            <span class="rule-code">${r.code}</span>
+                            <strong style="margin-left: 8px; font-size: 1.1rem; color: #0f172a;">${r.title}</strong>
+                        </div>
+                        <span class="badge" style="background: #e0f2fe; color: #0284c7;">${r.category}</span>
+                    </div>
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.6; margin: 0.75rem 0;">${r.content}</p>
+                    <div class="rule-penalty"><i class="fa-solid fa-triangle-exclamation"></i> Hình thức xử lý vi phạm: ${r.penalty}</div>
+                </div>
+            `).join('');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Nội Quy KTX - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div>DORM<span>EX</span></div>
+            </div>
+            <span>BQL</span>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="menu-label">Tổng Quan</div>
+            <a href="index.html" class="sidebar-item"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</a>
+            <div class="menu-label" style="margin-top: 1rem;">Nghiệp Vụ KTX</div>
+            <a href="users.html" class="sidebar-item"><i class="fa-solid fa-users"></i> Quản Lý Sinh Viên</a>
+            <a href="registrations.html" class="sidebar-item"><i class="fa-solid fa-file-signature"></i> Đơn Đăng Ký Phòng</a>
+            <a href="rooms.html" class="sidebar-item"><i class="fa-solid fa-bed"></i> Quản Lý Quỹ Phòng</a>
+            <a href="billing.html" class="sidebar-item"><i class="fa-solid fa-file-invoice-dollar"></i> Quản Lý Hóa Đơn</a>
+            <a href="maintenance.html" class="sidebar-item"><i class="fa-solid fa-screwdriver-wrench"></i> Bảo Trì - Sửa Chữa</a>
+            <div class="menu-label" style="margin-top: 1rem;">Truyền Thông & Quy Chế</div>
+            <a href="announcements.html" class="sidebar-item"><i class="fa-solid fa-bullhorn"></i> Thông Báo KTX</a>
+            <a href="events.html" class="sidebar-item"><i class="fa-solid fa-calendar-days"></i> Quản Lý Sự Kiện</a>
+            <a href="rules.html" class="sidebar-item active"><i class="fa-solid fa-gavel"></i> Nội Quy KTX</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="user-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="user-meta">
+                    <div class="name user-display-name">Ban Quản Lý</div>
+                    <div class="role">Admin Hệ Thống</div>
+                </div>
+                <button onclick="DormexDB.logout()" class="btn-action" title="Đăng xuất" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1>Hệ Thống Quy Định & Nội Quy Lưu Trú</h1>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <div id="adminRulesList">
+                <!-- Render dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('admin');
+            renderRulesAdmin();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Quỹ Phòng KTX - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div>DORM<span>EX</span></div>
+            </div>
+            <span>BQL</span>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="menu-label">Tổng Quan</div>
+            <a href="index.html" class="sidebar-item"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</a>
+            <div class="menu-label" style="margin-top: 1rem;">Nghiệp Vụ KTX</div>
+            <a href="users.html" class="sidebar-item"><i class="fa-solid fa-users"></i> Quản Lý Sinh Viên</a>
+            <a href="registrations.html" class="sidebar-item"><i class="fa-solid fa-file-signature"></i> Đơn Đăng Ký Phòng</a>
+            <a href="rooms.html" class="sidebar-item active"><i class="fa-solid fa-bed"></i> Quản Lý Quỹ Phòng</a>
+            <a href="billing.html" class="sidebar-item"><i class="fa-solid fa-file-invoice-dollar"></i> Quản Lý Hóa Đơn</a>
+            <a href="maintenance.html" class="sidebar-item"><i class="fa-solid fa-screwdriver-wrench"></i> Bảo Trì - Sửa Chữa</a>
+            <div class="menu-label" style="margin-top: 1rem;">Truyền Thông & Quy Chế</div>
+            <a href="announcements.html" class="sidebar-item"><i class="fa-solid fa-bullhorn"></i> Thông Báo KTX</a>
+            <a href="events.html" class="sidebar-item"><i class="fa-solid fa-calendar-days"></i> Quản Lý Sự Kiện</a>
+            <a href="rules.html" class="sidebar-item"><i class="fa-solid fa-gavel"></i> Nội Quy KTX</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="user-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="user-meta">
+                    <div class="name user-display-name">Ban Quản Lý</div>
+                    <div class="role">Admin Hệ Thống</div>
+                </div>
+                <button onclick="DormexDB.logout()" class="btn-action" title="Đăng xuất" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1>Quản Lý Quỹ Phòng Ký Túc Xá</h1>
+            </div>
+            <div class="topbar-actions">
+                <button onclick="openAddRoomModal()" class="btn btn-primary"><i class="fa-solid fa-square-plus"></i> Thêm Phòng Mới</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <div class="content-toolbar">
+                <div class="toolbar-filters">
+                    <label style="font-weight: 600; font-size: 0.9rem; color: #475569;">Lọc Tòa Nhà:</label>
+                    <select id="roomBuildingFilter" class="form-control" style="width: auto;" onchange="renderRoomsTable(this.value, document.getElementById('roomStatusFilter').value)">
+                        <option value="">Tất cả các tòa</option>
+                        <option value="Tòa A">Tòa A (Nam)</option>
+                        <option value="Tòa B">Tòa B (Nữ)</option>
+                        <option value="Tòa C">Tòa C (Chất Lượng Cao)</option>
+                    </select>
+
+                    <label style="font-weight: 600; font-size: 0.9rem; color: #475569; margin-left: 10px;">Trạng Thái:</label>
+                    <select id="roomStatusFilter" class="form-control" style="width: auto;" onchange="renderRoomsTable(document.getElementById('roomBuildingFilter').value, this.value)">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Available">Còn chỗ trống</option>
+                        <option value="Full">Đã kín phòng</option>
+                        <option value="Maintenance">Đang bảo trì</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Số Phòng</th>
+                                <th>Tòa Nhà</th>
+                                <th>Tầng</th>
+                                <th>Loại Phòng</th>
+                                <th>Hiện Có / Sức Chứa</th>
+                                <th>Đơn Giá</th>
+                                <th>Tình Trạng</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roomsTableBody">
+                            <!-- Render dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL THÊM / SỬA PHÒNG -->
+    <div id="roomModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="roomModalTitle">Thêm Phòng KTX Mới</h3>
+                <button class="modal-close" onclick="closeModal('roomModal')">&times;</button>
+            </div>
+            <form id="roomForm" onsubmit="handleSaveRoom(event)">
+                <input type="hidden" id="roomId">
+                <div class="modal-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Số phòng *</label>
+                            <input type="text" id="roomNumber" class="form-control" placeholder="Ví dụ: A103" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tòa nhà *</label>
+                            <select id="roomBuilding" class="form-control">
+                                <option value="Tòa A (Nam)">Tòa A (Nam)</option>
+                                <option value="Tòa B (Nữ)">Tòa B (Nữ)</option>
+                                <option value="Tòa C (Chất Lượng Cao)">Tòa C (Chất Lượng Cao)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Tầng</label>
+                            <input type="number" id="roomFloor" class="form-control" value="1" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Loại phòng</label>
+                            <select id="roomType" class="form-control">
+                                <option value="4 Giường Tiêu Chuẩn">4 Giường Tiêu Chuẩn</option>
+                                <option value="6 Giường Tiết Kiệm">6 Giường Tiết Kiệm</option>
+                                <option value="VIP 2 Giường">VIP 2 Giường</option>
+                                <option value="VIP 4 Giường">VIP 4 Giường</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Sức chứa (người)</label>
+                            <input type="number" id="roomCapacity" class="form-control" value="4" min="1" max="8">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Đơn giá (VNĐ / tháng)</label>
+                            <input type="number" id="roomPrice" class="form-control" value="650000" step="10000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Trạng thái phòng</label>
+                        <select id="roomStatus" class="form-control">
+                            <option value="Available">Còn chỗ trống (Available)</option>
+                            <option value="Full">Đã kín (Full)</option>
+                            <option value="Maintenance">Đang sửa chữa (Maintenance)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Mô tả tiện ích</label>
+                        <textarea id="roomDescription" class="form-control" placeholder="Điều hòa, bình nóng lạnh, bàn học..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('roomModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu Phòng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('admin');
+            renderRoomsTable();
+        });
+    </script>
+</body>
+</html>
+

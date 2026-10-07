@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Thông Báo KTX - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div>DORM<span>EX</span></div>
+            </div>
+            <span>BQL</span>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="menu-label">Tổng Quan</div>
+            <a href="index.html" class="sidebar-item"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</a>
+            <div class="menu-label" style="margin-top: 1rem;">Nghiệp Vụ KTX</div>
+            <a href="users.html" class="sidebar-item"><i class="fa-solid fa-users"></i> Quản Lý Sinh Viên</a>
+            <a href="registrations.html" class="sidebar-item"><i class="fa-solid fa-file-signature"></i> Đơn Đăng Ký Phòng</a>
+            <a href="rooms.html" class="sidebar-item"><i class="fa-solid fa-bed"></i> Quản Lý Quỹ Phòng</a>
+            <a href="billing.html" class="sidebar-item"><i class="fa-solid fa-file-invoice-dollar"></i> Quản Lý Hóa Đơn</a>
+            <a href="maintenance.html" class="sidebar-item"><i class="fa-solid fa-screwdriver-wrench"></i> Bảo Trì - Sửa Chữa</a>
+            <div class="menu-label" style="margin-top: 1rem;">Truyền Thông & Quy Chế</div>
+            <a href="announcements.html" class="sidebar-item active"><i class="fa-solid fa-bullhorn"></i> Thông Báo KTX</a>
+            <a href="events.html" class="sidebar-item"><i class="fa-solid fa-calendar-days"></i> Quản Lý Sự Kiện</a>
+            <a href="rules.html" class="sidebar-item"><i class="fa-solid fa-gavel"></i> Nội Quy KTX</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="user-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="user-meta">
+                    <div class="name user-display-name">Ban Quản Lý</div>
+                    <div class="role">Admin Hệ Thống</div>
+                </div>
+                <button onclick="DormexDB.logout()" class="btn-action" title="Đăng xuất" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1>Bảng Tin & Thông Báo Ký Túc Xá</h1>
+            </div>
+            <div class="topbar-actions">
+                <button onclick="openModal('annModal')" class="btn btn-primary"><i class="fa-solid fa-bullhorn"></i> Đăng Thông Báo Mới</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <div id="adminAnnouncementsList">
+                <!-- Render dynamically -->
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL ĐĂNG THÔNG BÁO -->
+    <div id="annModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Đăng Bản Tin / Thông Báo Mới</h3>
+                <button class="modal-close" onclick="closeModal('annModal')">&times;</button>
+            </div>
+            <form id="annForm" onsubmit="handleCreateAnnouncement(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Tiêu đề thông báo *</label>
+                        <input type="text" id="annTitle" class="form-control" required placeholder="Nhập tiêu đề...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phân loại danh mục</label>
+                        <select id="annCategory" class="form-control">
+                            <option value="Chung">Chung</option>
+                            <option value="Thanh toán">Thanh toán điện nước</option>
+                            <option value="Nội quy">Nội quy sinh hoạt</option>
+                            <option value="Bảo trì">Bảo trì kỹ thuật</option>
+                            <option value="Sự kiện">Hoạt động - Sự kiện</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nội dung chi tiết *</label>
+                        <textarea id="annContent" class="form-control" style="min-height: 120px;" required placeholder="Soạn nội dung chi tiết thông báo..."></textarea>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 1rem;">
+                        <input type="checkbox" id="annPinned" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                        <label for="annPinned" style="font-weight: 600; font-size: 0.9rem; cursor: pointer;">Ghim lên đầu bảng tin (Ưu tiên hiển thị)</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('annModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Đăng Ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('admin');
+            renderAnnouncementsAdmin();
+        });
+    </script>
+</body>
+</html>
+

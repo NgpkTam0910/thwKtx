@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Tài Khoản Sinh Viên - Dormex</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ffffff 100%); min-height: 100vh; display: flex; flex-direction: column;">
+
+    <div style="padding: 1.25rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <a href="index.html" class="brand-logo">
+            <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+            <div>DORM<span>EX</span></div>
+        </a>
+        <a href="login.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-right-to-bracket"></i> Đã có tài khoản</a>
+    </div>
+
+    <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem;">
+        <div class="card" style="width: 100%; max-width: 580px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 1rem;">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <h2 style="font-size: 1.6rem; font-weight: 800; color: #0369a1;">Đăng Ký Tài Khoản KTX</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Dành cho sinh viên đăng ký lưu trú ký túc xá</p>
+            </div>
+
+            <form id="registerForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="regFullName">Họ và tên *</label>
+                        <input type="text" id="regFullName" class="form-control" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regStudentCode">Mã số sinh viên *</label>
+                        <input type="text" id="regStudentCode" class="form-control" placeholder="SV2024..." required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="regUsername">Tên đăng nhập *</label>
+                        <input type="text" id="regUsername" class="form-control" placeholder="sv_nguyenvana" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regPassword">Mật khẩu *</label>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Mật khẩu tối thiểu 6 ký tự" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="regEmail">Email sinh viên *</label>
+                        <input type="email" id="regEmail" class="form-control" placeholder="example@dormex.edu.vn" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regPhone">Số điện thoại *</label>
+                        <input type="tel" id="regPhone" class="form-control" placeholder="0987654321" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label" for="regClass">Lớp học / Khóa</label>
+                        <input type="text" id="regClass" class="form-control" placeholder="CNTT-K18">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="regGender">Giới tính</label>
+                        <select id="regGender" class="form-control">
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; margin-top: 1rem;">
+                    <i class="fa-solid fa-check"></i> Hoàn Tất Đăng Ký
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                Đã có tài khoản? <a href="login.html" style="font-weight: 700; color: var(--primary);">Đăng nhập ngay</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/data-store.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const student = {
+                full_name: document.getElementById('regFullName').value.trim(),
+                student_code: document.getElementById('regStudentCode').value.trim(),
+                username: document.getElementById('regUsername').value.trim(),
+                password: document.getElementById('regPassword').value,
+                email: document.getElementById('regEmail').value.trim(),
+                phone: document.getElementById('regPhone').value.trim(),
+                class_name: document.getElementById('regClass').value.trim(),
+                gender: document.getElementById('regGender').value,
+                room_id: null
+            };
+
+            DormexDB.saveStudent(student);
+            showToast('Đăng ký tài khoản thành công! Đang chuyển đến trang đăng nhập...', 'success');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
+

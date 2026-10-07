@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Sinh Viên - Dormex KTX</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div>DORM<span>EX</span></div>
+            </div>
+            <span>BQL</span>
+        </div>
+        <nav class="sidebar-menu">
+            <div class="menu-label">Tổng Quan</div>
+            <a href="index.html" class="sidebar-item"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</a>
+            <div class="menu-label" style="margin-top: 1rem;">Nghiệp Vụ KTX</div>
+            <a href="users.html" class="sidebar-item active"><i class="fa-solid fa-users"></i> Quản Lý Sinh Viên</a>
+            <a href="registrations.html" class="sidebar-item"><i class="fa-solid fa-file-signature"></i> Đơn Đăng Ký Phòng</a>
+            <a href="rooms.html" class="sidebar-item"><i class="fa-solid fa-bed"></i> Quản Lý Quỹ Phòng</a>
+            <a href="billing.html" class="sidebar-item"><i class="fa-solid fa-file-invoice-dollar"></i> Quản Lý Hóa Đơn</a>
+            <a href="maintenance.html" class="sidebar-item"><i class="fa-solid fa-screwdriver-wrench"></i> Bảo Trì - Sửa Chữa</a>
+            <div class="menu-label" style="margin-top: 1rem;">Truyền Thông & Quy Chế</div>
+            <a href="announcements.html" class="sidebar-item"><i class="fa-solid fa-bullhorn"></i> Thông Báo KTX</a>
+            <a href="events.html" class="sidebar-item"><i class="fa-solid fa-calendar-days"></i> Quản Lý Sự Kiện</a>
+            <a href="rules.html" class="sidebar-item"><i class="fa-solid fa-gavel"></i> Nội Quy KTX</a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-snippet">
+                <div class="user-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="user-meta">
+                    <div class="name user-display-name">Ban Quản Lý</div>
+                    <div class="role">Admin Hệ Thống</div>
+                </div>
+                <button onclick="DormexDB.logout()" class="btn-action" title="Đăng xuất" style="color: var(--danger);"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1>Hồ Sơ & Danh Sách Sinh Viên KTX</h1>
+            </div>
+            <div class="topbar-actions">
+                <button onclick="openAddStudentModal()" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Thêm Sinh Viên</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <!-- TOOLBAR SEARCH -->
+            <div class="content-toolbar">
+                <div class="toolbar-filters">
+                    <div class="search-input">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="userSearchInput" placeholder="Tìm kiếm theo tên, MSSV, phòng..." onkeyup="renderUsersTable(this.value)">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-outline btn-sm" onclick="renderUsersTable()"><i class="fa-solid fa-rotate"></i> Làm mới</button>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Sinh Viên</th>
+                                <th>Lớp</th>
+                                <th>Giới Tính</th>
+                                <th>Phòng Ở</th>
+                                <th>Liên Hệ</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- Render dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL THÊM / SỬA SINH VIÊN -->
+    <div id="studentModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="studentModalTitle">Thêm Sinh Viên Mới</h3>
+                <button class="modal-close" onclick="closeModal('studentModal')">&times;</button>
+            </div>
+            <form id="studentForm" onsubmit="handleSaveStudent(event)">
+                <input type="hidden" id="studentId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Họ và tên *</label>
+                        <input type="text" id="studentFullName" class="form-control" required placeholder="Ví dụ: Nguyễn Văn A">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Mã số sinh viên *</label>
+                            <input type="text" id="studentCode" class="form-control" required placeholder="SV2024001">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Lớp học</label>
+                            <input type="text" id="studentClass" class="form-control" placeholder="CNTT-K18">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" id="studentEmail" class="form-control" required placeholder="sv@dormex.edu.vn">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" id="studentPhone" class="form-control" placeholder="0987654321">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Giới tính</label>
+                            <select id="studentGender" class="form-control">
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                                <option value="Khác">Khác</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Xếp vào phòng KTX</label>
+                            <select id="studentRoomSelect" class="form-control">
+                                <option value="">Chưa xếp phòng</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('studentModal')">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Lưu Sinh Viên</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('admin');
+            renderUsersTable();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Hóa Đơn & Thanh Toán - Dormex KTX</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <strong style="font-size: 0.92rem; color: #0f172a;" class="user-display-name">Sinh Viên</strong>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.78rem;" class="user-display-role">Cổng Sinh Viên</small>
+                        </div>
+                    </div>
+                    <button onclick="DormexDB.logout()" class="btn btn-sm btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">
+                        <i class="fa-solid fa-power-off"></i> Đăng Xuất
+                    </button>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link active"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem;" id="studentBillingContainer">
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
+            <div class="badge-tag">Tài chính sinh viên</div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #0369a1; margin-bottom: 0.5rem;">Hóa Đơn Tiền Phòng & Điện Nước</h1>
+            <p style="color: var(--text-muted);">Theo dõi chỉ số tiêu thụ hàng tháng và thanh toán trực tuyến thuận tiện qua mã QR.</p>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Mã Hóa Đơn</th>
+                            <th>Kỳ Tháng</th>
+                            <th>Tiền Phòng</th>
+                            <th>Chi Số Tiêu Thụ Điện / Nước</th>
+                            <th>Tổng Cộng</th>
+                            <th>Tình Trạng</th>
+                            <th>Thanh Toán</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentBillsTableBody">
+                        <!-- Render dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BẢNG ĐƠN GIÁ ĐỊNH MỨC -->
+        <div class="grid-3" style="margin-top: 2rem;">
+            <div class="card" style="padding: 1.25rem;">
+                <h4 style="font-size: 1rem; color: #0369a1; margin-bottom: 0.5rem;"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Đơn Giá Điện Sinh Hoạt</h4>
+                <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">3.000 ₫ <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">/ kWh</small></div>
+                <small style="color: #64748b;">Công tơ điện riêng từng phòng, chốt số cuối tháng.</small>
+            </div>
+            <div class="card" style="padding: 1.25rem;">
+                <h4 style="font-size: 1rem; color: #0369a1; margin-bottom: 0.5rem;"><i class="fa-solid fa-faucet-drip" style="color: #06b6d4;"></i> Đơn Giá Nước Sạch</h4>
+                <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">10.000 ₫ <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">/ m³</small></div>
+                <small style="color: #64748b;">Nước máy sạch qua hệ thống lọc trung tâm KTX.</small>
+            </div>
+            <div class="card" style="padding: 1.25rem;">
+                <h4 style="font-size: 1rem; color: #0369a1; margin-bottom: 0.5rem;"><i class="fa-solid fa-wifi" style="color: #10b981;"></i> Dịch Vụ & Internet</h4>
+                <div style="font-size: 1.35rem; font-weight: 800; color: #0f172a;">50.000 ₫ <small style="font-size: 0.8rem; font-weight: normal; color: #64748b;">/ sinh viên / tháng</small></div>
+                <small style="color: #64748b;">Bao gồm wifi cáp quang, vệ sinh hành lang và an ninh.</small>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL THANH TOÁN MÃ QR MÔ PHỎNG -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Thanh Toán Hóa Đơn Trực Tuyến</h3>
+                <button class="modal-close" onclick="closeModal('paymentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span class="badge" style="background: #e0f2fe; color: #0284c7; font-size: 0.88rem;" id="modalBillCode">BILL-CODE</span>
+                    <div style="font-size: 1.85rem; font-weight: 800; color: #0369a1; margin: 6px 0;" id="modalBillAmount">0 ₫</div>
+                </div>
+
+                <div class="bill-summary-box" id="modalBillDetail">
+                    <!-- Dynamic bill lines -->
+                </div>
+
+                <!-- QR CODE BOX -->
+                <div class="qr-box">
+                    <div class="qr-placeholder">
+                        <i class="fa-solid fa-qrcode" style="font-size: 6rem; margin-bottom: 8px;"></i>
+                        <small style="font-weight: 700; letter-spacing: 1px;">QUÉT MÃ VIETQR</small>
+                    </div>
+                    <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 4px;">Ngân hàng: <strong>Vietcombank</strong> (CN Thăng Long)</p>
+                    <p style="font-size: 0.88rem; color: #64748b;">Số tài khoản: <strong>998822336688</strong></p>
+                    <p style="font-size: 0.88rem; color: #64748b;">Chủ TK: <strong>BAN QUAN LY KTX DORMEX</strong></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal('paymentModal')">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="confirmSimulatedPayment()">
+                    <i class="fa-solid fa-check-circle"></i> Tôi Đã Chuyển Khoản Thành Công
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hotline ban quản lý: (024) 3888 9999 &bull; Hỗ trợ kỹ thuật 24/7</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('student');
+            initStudentBilling();
+        });
+    </script>
+</body>
+</html>
+

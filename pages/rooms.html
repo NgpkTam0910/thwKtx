@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Phòng Ký Túc Xá - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="registration.html" class="btn btn-sm btn-primary"><i class="fa-solid fa-file-signature"></i> Đăng Ký Phòng</a>
+                    <a href="../login.html" class="btn btn-sm btn-outline"><i class="fa-solid fa-user"></i> Tài Khoản</a>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link active"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem;">
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
+            <div class="badge-tag">Hệ thống phòng ở</div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #0369a1; margin-bottom: 0.5rem;">Danh Sách Phòng Ký Túc Xá</h1>
+            <p style="color: var(--text-muted);">Tra cứu tình trạng chỗ ở, mức phí và tiện ích các khối nhà ký túc xá.</p>
+        </div>
+
+        <!-- BỘ LỌC PHÒNG -->
+        <div class="content-toolbar" style="margin-bottom: 2rem;">
+            <div class="toolbar-filters">
+                <label style="font-weight: 600; font-size: 0.9rem; color: #475569;">Chọn Tòa Nhà:</label>
+                <select id="filterBuilding" class="form-control" style="width: auto;" onchange="filterRooms()">
+                    <option value="">Tất cả các tòa</option>
+                    <option value="Tòa A">Tòa A (Khu Nam)</option>
+                    <option value="Tòa B">Tòa B (Khu Nữ)</option>
+                    <option value="Tòa C">Tòa C (Chất lượng cao)</option>
+                </select>
+
+                <label style="font-weight: 600; font-size: 0.9rem; color: #475569; margin-left: 1rem;">Loại Phòng:</label>
+                <select id="filterType" class="form-control" style="width: auto;" onchange="filterRooms()">
+                    <option value="">Tất cả các loại</option>
+                    <option value="4 Giường">Phòng 4 Giường</option>
+                    <option value="6 Giường">Phòng 6 Giường</option>
+                    <option value="VIP">Phòng VIP</option>
+                </select>
+            </div>
+            <div>
+                <button class="btn btn-outline btn-sm" onclick="resetFilter()"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+            </div>
+        </div>
+
+        <!-- GRID PHÒNG -->
+        <div class="grid-3" id="roomsGridContainer">
+            <!-- Render dynamically -->
+        </div>
+    </main>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hotline ban quản lý: (024) 3888 9999 &bull; Hỗ trợ kỹ thuật 24/7</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        function filterRooms() {
+            const b = document.getElementById('filterBuilding').value;
+            const t = document.getElementById('filterType').value;
+            renderStudentRooms(b, t);
+        }
+
+        function resetFilter() {
+            document.getElementById('filterBuilding').value = '';
+            document.getElementById('filterType').value = '';
+            renderStudentRooms();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudentRooms();
+        });
+    </script>
+</body>
+</html>
+

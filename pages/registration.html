@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Lưu Trú Ký Túc Xá - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                            <i class="fa-solid fa-user-graduate"></i>
+                        </div>
+                        <div>
+                            <strong style="font-size: 0.92rem; color: #0f172a;" class="user-display-name">Sinh Viên</strong>
+                            <small style="display: block; color: var(--text-muted); font-size: 0.78rem;" class="user-display-role">Cổng Sinh Viên</small>
+                        </div>
+                    </div>
+                    <button onclick="DormexDB.logout()" class="btn btn-sm btn-outline" style="color: var(--danger); border-color: rgba(239, 68, 68, 0.3);">
+                        <i class="fa-solid fa-power-off"></i> Đăng Xuất
+                    </button>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link active"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem;">
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem;">
+            
+            <!-- BIỂU MẪU ĐĂNG KÝ -->
+            <div class="card" style="padding: 2rem;">
+                <div class="card-header-styled">
+                    <h2 style="font-size: 1.35rem; color: #0369a1;"><i class="fa-solid fa-file-signature"></i> Đăng Ký Chỗ Ở Ký Túc Xá</h2>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem;">Vui lòng điền thông tin đăng ký lưu trú. Ban quản lý KTX sẽ xét duyệt hồ sơ trong vòng 2 ngày làm việc.</p>
+
+                <form id="registrationForm" onsubmit="handleSubmitRegistration(event)">
+                    <div class="form-group">
+                        <label class="form-label">Chọn học kỳ lưu trú *</label>
+                        <select id="regSemester" class="form-control" required>
+                            <option value="Học kỳ 1 - 2024-2025">Học kỳ 1 - Năm học 2024-2025 (T9/2024 - T1/2025)</option>
+                            <option value="Học kỳ 2 - 2024-2025">Học kỳ 2 - Năm học 2024-2025 (T2/2025 - T6/2025)</option>
+                            <option value="Kỳ hè 2025">Kỳ học phụ hè 2025 (T7/2025 - T8/2025)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Phòng nguyện vọng đăng ký *</label>
+                        <select id="regRoomSelect" class="form-control" required>
+                            <!-- Load available rooms -->
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label class="form-label">Ngày dự kiến vào ở *</label>
+                            <input type="date" id="regStartDate" class="form-control" value="2024-09-01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ngày kết thúc hợp đồng</label>
+                            <input type="date" id="regEndDate" class="form-control" value="2025-01-31">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ghi chú nguyện vọng / Diện ưu tiên</label>
+                        <textarea id="regNote" class="form-control" placeholder="Sinh viên chính sách, ở cùng bạn học, tầng thấp..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+                        <i class="fa-solid fa-paper-plane"></i> Gửi Đơn Đăng Ký Chờ Duyệt
+                    </button>
+                </form>
+            </div>
+
+            <!-- LỊCH SỬ ĐƠN CỦA TÔI -->
+            <div>
+                <div class="card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="card-header-styled">
+                        <h3 style="font-size: 1.15rem; color: #0369a1;"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử Đơn Đăng Ký Của Bạn</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Phòng</th>
+                                    <th>Kỳ Học</th>
+                                    <th>Ngày Gửi</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Phản Hồi BQL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myRegistrationsHistory">
+                                <!-- Render dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- HƯỚNG DẪN ĐĂNG KÝ -->
+                <div class="card" style="padding: 1.5rem; background: var(--primary-ultra-light); border-color: var(--primary-border);">
+                    <h4 style="font-size: 1.05rem; color: #0369a1; margin-bottom: 0.75rem;"><i class="fa-solid fa-circle-question"></i> Quy Trình Đăng Ký Phòng</h4>
+                    <ol style="padding-left: 1.25rem; font-size: 0.9rem; color: #475569; line-height: 1.8;">
+                        <li>Chọn phòng còn chỗ trống trong danh mục.</li>
+                        <li>Gửi đơn đăng ký trực tuyến kèm thông tin nguyện vọng.</li>
+                        <li>Ban quản lý tiếp nhận hồ sơ, đối chiếu chính sách ưu tiên và duyệt đơn.</li>
+                        <li>Khi đơn được duyệt (Approved), sinh viên liên hệ phòng thường trực để nhận chìa khóa và hoàn tất thủ tục.</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth('student');
+            initRegistrationPage();
+        });
+    </script>
+</body>
+</html>
+

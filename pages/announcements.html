@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Báo & Tin Tức - Dormex KTX</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="home.html" class="btn btn-sm btn-outline"><i class="fa-solid fa-user"></i> Cổng Sinh Viên</a>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link active"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 900px; padding-top: 2.5rem;">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+            <div class="badge-tag">Bảng tin ban quản lý</div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #0369a1; margin-bottom: 0.5rem;">Thông Báo Ký Túc Xá</h1>
+            <p style="color: var(--text-muted);">Cập nhật các chỉ đạo, lịch thu tiền, lịch kiểm tra và thông tin lưu trú mới nhất.</p>
+        </div>
+
+        <div id="studentAnnouncementsContainer">
+            <!-- Render dynamically -->
+        </div>
+    </main>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hotline ban quản lý: (024) 3888 9999 &bull; Hỗ trợ kỹ thuật 24/7</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const list = DormexDB.getAnnouncements();
+            const container = document.getElementById('studentAnnouncementsContainer');
+            if (list.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:3rem; color:#94a3b8;">Chưa có thông báo nào.</div>';
+                return;
+            }
+
+            container.innerHTML = list.map(item => `
+                <div class="card" style="margin-bottom: 1.5rem; ${item.is_pinned ? 'border-left: 5px solid #0284c7;' : ''}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                        <div>
+                            <span class="badge" style="background: #e0f2fe; color: #0284c7; margin-bottom: 6px;">${item.category}</span>
+                            ${item.is_pinned ? '<span class="badge" style="background: #fef3c7; color: #d97706;"><i class="fa-solid fa-thumbtack"></i> Đã ghim</span>' : ''}
+                            <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-top: 4px;">${item.title}</h3>
+                        </div>
+                        <span style="font-size: 0.85rem; color: #94a3b8;"><i class="fa-solid fa-calendar-day"></i> ${item.created_at}</span>
+                    </div>
+                    <p style="color: #475569; font-size: 0.95rem; line-height: 1.7; margin: 1rem 0;">${item.content}</p>
+                    <div style="font-size: 0.85rem; color: #64748b; border-top: 1px solid #f1f5f9; padding-top: 0.75rem;">
+                        <i class="fa-solid fa-signature"></i> Người đăng: <strong>${item.author}</strong>
+                    </div>
+                </div>
+            `).join('');
+        });
+    </script>
+</body>
+</html>
+

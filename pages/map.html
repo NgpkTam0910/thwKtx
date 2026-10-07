@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Khuôn Viên Ký Túc Xá - Dormex</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/pages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="student-layout">
+
+    <header class="portal-nav">
+        <div class="portal-container">
+            <div class="portal-bar">
+                <a href="../index.html" class="brand-logo">
+                    <div class="logo-icon"><i class="fa-solid fa-hotel"></i></div>
+                    <div>DORM<span>EX</span></div>
+                </a>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="home.html" class="btn btn-sm btn-outline"><i class="fa-solid fa-user"></i> Cổng Sinh Viên</a>
+                </div>
+            </div>
+
+            <nav class="portal-menu">
+                <a href="home.html" class="portal-menu-link"><i class="fa-solid fa-house-chimney"></i> Trang Chủ</a>
+                <a href="profile.html" class="portal-menu-link"><i class="fa-solid fa-id-card"></i> Hồ Sơ Sinh Viên</a>
+                <a href="registration.html" class="portal-menu-link"><i class="fa-solid fa-file-pen"></i> Đăng Ký Phòng</a>
+                <a href="rooms.html" class="portal-menu-link"><i class="fa-solid fa-bed"></i> Tra Cứu Phòng</a>
+                <a href="billing.html" class="portal-menu-link"><i class="fa-solid fa-file-invoice-dollar"></i> Hóa Đơn & Tiền Phòng</a>
+                <a href="maintenance.html" class="portal-menu-link"><i class="fa-solid fa-screwdriver-wrench"></i> Báo Hỏng Sửa Chữa</a>
+                <a href="announcements.html" class="portal-menu-link"><i class="fa-solid fa-bullhorn"></i> Thông Báo</a>
+                <a href="events.html" class="portal-menu-link"><i class="fa-solid fa-calendar-star"></i> Sự Kiện KTX</a>
+                <a href="rules.html" class="portal-menu-link"><i class="fa-solid fa-shield-halved"></i> Nội Quy</a>
+                <a href="map.html" class="portal-menu-link active"><i class="fa-solid fa-map-location-dot"></i> Bản Đồ</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: 2rem;">
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 2rem;">
+            <div class="badge-tag"><i class="fa-solid fa-compass"></i> Định vị & chỉ dẫn</div>
+            <h1 style="font-size: 2.2rem; font-weight: 800; color: #0369a1; margin-bottom: 0.5rem;">Sơ Đồ Khuôn Viên KTX Dormex</h1>
+            <p style="color: var(--text-muted);">Nhấp chuột vào từng tòa nhà hoặc khu vực tiện ích trên bản đồ để xem thông tin chi tiết.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 2rem; align-items: start;">
+            
+            <!-- BẢN ĐỒ SVG TƯƠNG TÁC -->
+            <div class="campus-map-container">
+                <div class="map-svg-wrapper">
+                    <svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" style="font-family: inherit;">
+                        <!-- Nền sân cỏ & đường đi -->
+                        <rect x="0" y="0" width="800" height="550" fill="#f0f9ff"/>
+                        <path d="M 0,260 L 800,260" stroke="#bae6fd" stroke-width="28" fill="none"/>
+                        <path d="M 400,0 L 400,550" stroke="#bae6fd" stroke-width="28" fill="none"/>
+                        <circle cx="400" cy="260" r="45" fill="#e0f2fe" stroke="#38bdf8" stroke-width="3"/>
+                        <text x="400" y="265" font-size="12" font-weight="bold" fill="#0369a1" text-anchor="middle">Quảng Trường</text>
+
+                        <!-- TÒA A (NAM) -->
+                        <g class="map-building-node" onclick="showBuildingInfo('buildingA')">
+                            <rect x="70" y="60" width="220" height="140" rx="12" fill="#0284c7" stroke="#0369a1" stroke-width="3"/>
+                            <text x="180" y="125" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">TÒA A</text>
+                            <text x="180" y="150" font-size="13" fill="#e0f2fe" text-anchor="middle">Ký Túc Xá Nam (5 Tầng)</text>
+                        </g>
+
+                        <!-- TÒA B (NỮ) -->
+                        <g class="map-building-node" onclick="showBuildingInfo('buildingB')">
+                            <rect x="510" y="60" width="220" height="140" rx="12" fill="#38bdf8" stroke="#0284c7" stroke-width="3"/>
+                            <text x="620" y="125" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">TÒA B</text>
+                            <text x="620" y="150" font-size="13" fill="#ffffff" text-anchor="middle">Ký Túc Xá Nữ (5 Tầng)</text>
+                        </g>
+
+                        <!-- TÒA C (VIP & DỊCH VỤ) -->
+                        <g class="map-building-node" onclick="showBuildingInfo('buildingC')">
+                            <rect x="70" y="340" width="220" height="150" rx="12" fill="#0369a1" stroke="#082f49" stroke-width="3"/>
+                            <text x="180" y="410" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">TÒA C</text>
+                            <text x="180" y="435" font-size="13" fill="#e0f2fe" text-anchor="middle">Chất Lượng Cao (7 Tầng)</text>
+                        </g>
+
+                        <!-- CĂN TIN & NHÀ ĂN -->
+                        <g class="map-building-node" onclick="showBuildingInfo('canteen')">
+                            <rect x="510" y="340" width="130" height="150" rx="12" fill="#10b981" stroke="#059669" stroke-width="3"/>
+                            <text x="575" y="410" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">CĂN TIN</text>
+                            <text x="575" y="435" font-size="12" fill="#ffffff" text-anchor="middle">Nhà Ăn KTX</text>
+                        </g>
+
+                        <!-- SÂN BÓNG RỔ / THỂ THAO -->
+                        <g class="map-building-node" onclick="showBuildingInfo('sports')">
+                            <rect x="660" y="340" width="110" height="70" rx="8" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                            <text x="715" y="380" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">SÂN BÓNG</text>
+                        </g>
+
+                        <!-- CỔNG CHÍNH & BẢO VỆ -->
+                        <g class="map-building-node" onclick="showBuildingInfo('guard')">
+                            <rect x="660" y="430" width="110" height="60" rx="8" fill="#64748b" stroke="#334155" stroke-width="2"/>
+                            <text x="715" y="465" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">BẢO VỆ</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- BẢNG THÔNG TIN KHU VỰC ĐƯỢC CHỌN -->
+            <div class="card" id="buildingDetailPanel" style="padding: 2rem;">
+                <span class="badge" style="background: #e0f2fe; color: #0284c7; margin-bottom: 8px;" id="panelBadge">TÒA NHÀ LƯU TRÚ</span>
+                <h2 style="font-size: 1.6rem; color: #0369a1; margin-bottom: 0.5rem;" id="panelTitle">Tòa A - Ký Túc Xá Nam</h2>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;" id="panelDesc">
+                    Khu ký túc xá dành cho sinh viên Nam, bao gồm 5 tầng với 60 phòng tiêu chuẩn. Tầng 1 tích hợp phòng quản lý và sảnh sinh hoạt chung.
+                </p>
+
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;" id="panelSpecs">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b;">Số tầng:</span>
+                        <strong>5 Tầng</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b;">Sức chứa tối đa:</span>
+                        <strong>400 sinh viên</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="color: #64748b;">Tiện ích sẵn có:</span>
+                        <strong>Wifi, Điều hòa, Nóng lạnh</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #64748b;">Trực ban tòa nhà:</span>
+                        <strong>024.3888.101</strong>
+                    </div>
+                </div>
+
+                <a href="rooms.html" class="btn btn-primary" id="panelActionBtn" style="width: 100%;">
+                    <i class="fa-solid fa-list-check"></i> Xem Các Phòng Thuộc Tòa A
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer-main" style="margin-top: 4rem;">
+        <div class="footer-bottom" style="border: none; padding-top: 0;">
+            <div>&copy; 2024 - 2026 Dormex KTX Sinh Viên. Hệ thống Quản Lý Ký Túc Xá.</div>
+            <div>Hotline ban quản lý: (024) 3888 9999 &bull; Hỗ trợ kỹ thuật 24/7</div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/data-store.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        const DETAILS = {
+            buildingA: {
+                badge: 'KHU KTX NAM',
+                title: 'Tòa A - Ký Túc Xá Nam',
+                desc: 'Khu ký túc xá dành cho nam sinh viên với 5 tầng lầu, hệ thống giặt phơi sân thượng thoáng mát và phòng tự học mỗi tầng.',
+                specs: [
+                    { label: 'Số tầng:', val: '5 Tầng' },
+                    { label: 'Sức chứa tối đa:', val: '450 sinh viên' },
+                    { label: 'Loại phòng:', val: '4 giường & 6 giường' },
+                    { label: 'Trực ban tòa A:', val: '024.3888.101' }
+                ],
+                btnText: 'Xem Các Phòng Thuộc Tòa A'
+            },
+            buildingB: {
+                badge: 'KHU KTX NỮ',
+                title: 'Tòa B - Ký Túc Xá Nữ',
+                desc: 'Khu ký túc xá khép kín an ninh dành riêng cho nữ sinh viên. Có cửa thẻ từ kiểm soát ra vào nghiêm ngặt và camera an ninh hành lang.',
+                specs: [
+                    { label: 'Số tầng:', val: '5 Tầng' },
+                    { label: 'Sức chứa tối đa:', val: '450 nữ sinh viên' },
+                    { label: 'Loại phòng:', val: '4 giường tiêu chuẩn' },
+                    { label: 'Trực ban tòa B:', val: '024.3888.102' }
+                ],
+                btnText: 'Xem Các Phòng Thuộc Tòa B'
+            },
+            buildingC: {
+                badge: 'DỊCH VỤ CAO CẤP',
+                title: 'Tòa C - Chất Lượng Cao',
+                desc: 'Tòa nhà mới xây dựng 7 tầng có thang máy tốc độ cao, phòng điều hòa 2 chiều, tủ lạnh, bếp chung từng tầng và phòng VIP 2 giường.',
+                specs: [
+                    { label: 'Số tầng:', val: '7 Tầng (Có thang máy)' },
+                    { label: 'Sức chứa:', val: '300 sinh viên' },
+                    { label: 'Loại phòng:', val: 'VIP 2 giường & VIP 4 giường' },
+                    { label: 'Trực ban tòa C:', val: '024.3888.103' }
+                ],
+                btnText: 'Xem Các Phòng Thuộc Tòa C'
+            },
+            canteen: {
+                badge: 'TIỆN ÍCH ĂN UỐNG',
+                title: 'Khu Căn Tin & Nhà Ăn Sinh Viên',
+                desc: 'Phục vụ điểm tâm sáng, cơm trưa và bữa tối đảm bảo vệ sinh an toàn thực phẩm. Có quầy nước giải khát, cà phê và siêu thị mini.',
+                specs: [
+                    { label: 'Thời gian mở cửa:', val: '06h00 - 21h30' },
+                    { label: 'Sức chứa:', val: '300 chỗ ngồi đồng thời' },
+                    { label: 'Mức giá trợ giá:', val: '25.000đ - 40.000đ / suất' },
+                    { label: 'Hotline góp ý:', val: '024.3888.200' }
+                ],
+                btnText: 'Khám Phá Khuôn Viên KTX'
+            },
+            sports: {
+                badge: 'RÈN LUYỆN THỂ CHẤT',
+                title: 'Sân Thể Thao Đa Năng',
+                desc: 'Khu thể thao gồm sân bóng rổ tiêu chuẩn ngoài trời, 2 sân cầu lông và bàn bóng bàn miễn phí cho sinh viên rèn luyện sức khỏe.',
+                specs: [
+                    { label: 'Giờ mở cửa:', val: '05h30 - 21h00 hàng ngày' },
+                    { label: 'Chi phí:', val: 'Miễn phí cho sinh viên KTX' },
+                    { label: 'CLB hoạt động:', val: 'Bóng rổ, Cầu lông, Thể dục' }
+                ],
+                btnText: 'Xem Các Sự Kiện Thể Thao'
+            },
+            guard: {
+                badge: 'AN NINH TRẬT TỰ',
+                title: 'Chốt Thường Trực Bảo Vệ',
+                desc: 'Điểm kiểm soát ra vào cổng chính, tiếp nhận đăng ký khách thăm, nhận bưu phẩm hộ sinh viên và hỗ trợ khẩn cấp 24/7.',
+                specs: [
+                    { label: 'Thời gian trực:', val: '24/24 tất cả các ngày' },
+                    { label: 'Giờ đóng cổng KTX:', val: '23h00 đêm' },
+                    { label: 'Hotline an ninh:', val: '024.3888.7777' }
+                ],
+                btnText: 'Xem Nội Quy KTX'
+            }
+        };
+
+        function showBuildingInfo(key) {
+            const info = DETAILS[key];
+            if (!info) return;
+
+            document.getElementById('panelBadge').textContent = info.badge;
+            document.getElementById('panelTitle').textContent = info.title;
+            document.getElementById('panelDesc').textContent = info.desc;
+            document.getElementById('panelActionBtn').innerHTML = `<i class="fa-solid fa-arrow-right"></i> ${info.btnText}`;
+
+            document.getElementById('panelSpecs').innerHTML = info.specs.map(s => `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="color: #64748b;">${s.label}</span>
+                    <strong>${s.val}</strong>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
+
